@@ -1,0 +1,18 @@
+on:
+  release:
+    types: [created]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash ./extract-words.bash
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: words.txt.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
